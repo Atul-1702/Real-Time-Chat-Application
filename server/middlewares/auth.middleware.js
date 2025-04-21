@@ -1,22 +1,17 @@
 const jwt = require("jsonwebtoken");
+const CustomError = require("../utils/cutom.error");
 
 function AuthMiddleware(req, res, next) {
   const token = req.body?.token;
   if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: "Access denied. No token provided.",
-    });
+    return next(new CustomError('Access denied. No token provided.',401));
   }
   const user = jwt.verify(token, process.env.TOKEN_SECRET_KEY);
   if (!user) {
-    return res.status(401).json({
-      success: false,
-      message: "Invalid or expired token.",
-    });
+    return next(new CustomError('Invalid or expired token.',401));
   }
   req.body.userId = user.userId;
-  next();
+  return next();
 }
 
 module.exports = AuthMiddleware;
