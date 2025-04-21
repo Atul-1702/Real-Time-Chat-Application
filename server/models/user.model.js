@@ -25,12 +25,13 @@ const userSchema = new mongoose.Schema({
     trim: true,
     minlength: [6, "Password must be at least 6 characters"],
     maxlength: [8, "Password must be at max 8 characters"],
+    select: false
   },
   profilepic: {
     type: String,
     deafault: "",
   },
-});
+},{timestamps : true});
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
