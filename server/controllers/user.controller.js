@@ -1,6 +1,5 @@
 const userCollection = require("../models/user.model");
 
-
 async function getUserDetails(req, res) {
   const user = await userCollection.find({ _id: req.body.userId });
   return res.status(200).json({
@@ -10,18 +9,16 @@ async function getUserDetails(req, res) {
   });
 }
 
-async function getAllUserDetails(req,res){
-    
-    const allUsers = await userCollection.find({_id:{$ne : req.body.userId}});
-    return res.status(200).json({
-        success : false,
-        message : "All user details fetched successfully.",
-        data: allUsers
-    })
+async function getAllUserDetails(req, res) {
+  const allUsers = await userCollection.find({ _id: { $ne: req.body.userId } });
+  return res.status(200).json({
+    success: false,
+    message: "All user details fetched successfully.",
+    data: allUsers,
+  });
 }
-
 
 module.exports = {
-     getUserDetails,
-     getAllUserDetails
-}
+  getUserDetails,
+  getAllUserDetails,
+};
