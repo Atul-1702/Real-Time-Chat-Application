@@ -1,0 +1,121 @@
+#signup-form-outer-container {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(rgb(176, 70, 58, 0.7)),
+    url("../../assets/images/quick-chat-app-background.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  #signup-form-container {
+    width: 384px;
+    border-radius: 16px;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto auto auto 48px;
+    column-gap: 16px;
+    row-gap: 24px;
+    padding: 48px 72px;
+    background-color: rgb(255, 255, 253);
+    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5),
+      -2px -2px 5px rgba(255, 255, 255, 0.5);
+    @media (max-width: 1250px) {
+      margin-top: 64px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 616px) {
+      width: 272px;
+      padding: 24px 36px;
+      margin-top: 48px;
+      margin-bottom: 24px;
+    }
+    h3 {
+      text-align: center;
+      grid-column: span 2;
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 32px;
+    }
+    .input-field-wrapper {
+      &:nth-child(n + 4) {
+        grid-column: span 2;
+      }
+      .input-field {
+        border-radius: 4px;
+        padding-left: 12px;
+        height: 48px;
+        border: none;
+        background-color: rgb(239, 239, 239);
+        width: calc(100% - 14px);
+      }
+      p {
+        color: #fa8072;
+        font-weight: bold;
+        margin-bottom: 0;
+        margin-top: 8px;
+        margin-left: 4px;
+      }
+    }
+
+    #signup-button {
+      grid-column: span 2;
+      border-radius: 4px;
+      background-color: rgb(225, 75, 59);
+      border: none;
+      font-weight: 600;
+      color: rgb(251, 218, 212);
+      font-size: 16px;
+      position: relative;
+      z-index: 0;
+      cursor: pointer;
+      span {
+        position: relative;
+        z-index: 2;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 100%;
+        background-color: rgb(251, 86, 80);
+        left: 0;
+        top: 0;
+        z-index: 1;
+        border-radius: 4px;
+      }
+
+      &:hover {
+        &::after {
+          animation: buttonHoverin 0.6s forwards linear;
+        }
+      }
+
+      &:disabled {
+        opacity: 0.2;
+        pointer-events: none;
+      }
+
+      @keyframes buttonHoverin {
+        0% {
+          width: 0%;
+        }
+        100% {
+          width: 100%;
+        }
+      }
+    }
+    .buttonSignup::after {
+      animation: buttonHoverout 0.6s forwards linear;
+      @keyframes buttonHoverout {
+        0% {
+          width: 100%;
+        }
+        100% {
+          width: 0%;
+        }
+      }
+    }
+  }
+}
