@@ -3,13 +3,16 @@ import styles from "./signin.module.scss";
 import { FieldError, useForm } from "react-hook-form";
 import SigninModel from "../../models/signin.model";
 import { signinApicall } from "../../apiCalls/auth.api";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
+
 
 
 function Signin() {
 
     const buttonRef: RefObject<HTMLButtonElement | null> = useRef(null);
     const [isMouseEnter, setIsMouseEnter] = useState<boolean>(false);
-
+    const navigate = useNavigate();
 
     const { register, handleSubmit, formState } = useForm();
 
@@ -21,10 +24,18 @@ function Signin() {
     async function onFormSubmit(formData: SigninModel) {
         try {
             const response = await signinApicall(formData);
-            console.log(response);
+
+            if (response.success === true) {
+                toast.success("User logged in successfully");
+                localStorage.setItem("user", response.token);
+                navigate("/");
+            }
+            else {
+                toast.error(response.response.data.message);
+            }
         }
-        catch (err) {
-            console.log(err);
+        catch (err: unknown) {
+            toast.error("Something went wrong.");
         }
     }
 

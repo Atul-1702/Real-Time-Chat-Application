@@ -1,11 +1,14 @@
 
-import axios from 'axios';
+import axios, { InternalAxiosRequestConfig } from 'axios';
 
 const axiosConfig = axios.create({
     baseURL: "http://localhost:4000",
-    headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-    }
+})
+
+axiosConfig.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    config.headers = config.headers || {};
+    config.headers.Authorization = `Bearer ${localStorage.getItem('user')}`
+    return config;
 })
 
 export default axiosConfig;

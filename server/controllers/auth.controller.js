@@ -16,17 +16,19 @@ async function signup(req, res, next) {
   });
 }
 
-async function signin(req, res,next) {
-  console.log(req.body)
+async function signin(req, res, next) {
+  console.log(req.body);
   if (!req.body.email || !req.body.password) {
-    return next(new CustomError("All field are required.",400));
+    return next(new CustomError("All field are required.", 400));
   }
-  const user = await userCollection.findOne({ email: req.body.email }).select('password');
+  const user = await userCollection
+    .findOne({ email: req.body.email })
+    .select("password");
   if (!user) {
-    return next(new CustomError("User does not exists.",401));
+    return next(new CustomError("User does not exists.", 401));
   }
   if (!(await bcrypt.compare(req.body.password, user.password))) {
-    return next(new CustomError("Password is not correct.",401));
+    return next(new CustomError("Password is not correct.", 401));
   }
   const token = jsonwebtoken.sign(
     { userId: user._id },

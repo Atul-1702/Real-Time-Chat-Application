@@ -3,13 +3,15 @@ import styles from "./signup.module.scss";
 import { FieldError, useForm } from "react-hook-form";
 import SignupModel from "../../models/signup.model";
 import { signupApiCall } from "../../apiCalls/auth.api";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 
 function Signup() {
 
   const buttonRef: RefObject<HTMLButtonElement | null> = useRef(null);
   const [isMouseEnter, setIsMouseEnter] = useState<boolean>(false);
-
+  const navigate = useNavigate();
 
   const { register, handleSubmit, formState, watch } = useForm();
 
@@ -21,13 +23,19 @@ function Signup() {
   async function onFormSubmit(formData: SignupModel) {
     delete formData['confirm_password'];
 
-    console.log(formData);
     try {
       const response = await signupApiCall(formData);
-      alert(response.message);
+
+      if (response.success == true) {
+        toast.success("Account created Successfully.");
+        navigate("/signin");
+      }
+      else {
+        toast.error(response.message);
+      }
     }
     catch (err) {
-      alert(err)
+      toast.error("Something went wrong.");
     }
 
 
