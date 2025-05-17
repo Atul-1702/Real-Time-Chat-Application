@@ -1,14 +1,14 @@
 function duplicateEmailError(error) {
   error.statusCode = 409;
   return {
-    messsage: "User already exists.",
+    message: "User already exists.",
     success: false,
   };
 }
 function validationError(error) {
   error.statusCode = 401;
   return {
-    messsage: error.message,
+    message: error.message,
     success: false,
   };
 }

@@ -1,14 +1,10 @@
-
-
 import { isAxiosError } from "axios";
-import SigninModel from "../models/signin.model";
-import SignupModel from "../models/signup.model";
-import axiosConfig from "./axios.config";
+import axiosConfig from "./axios.config"
 
-export const signupApiCall = async (formData: SignupModel) => {
 
+export const getUserDetails = async () => {
     try {
-        const response = await axiosConfig.post('/api/auth/signup', formData);
+        const response = await axiosConfig.get("/api/user/user-details");
         return response.data;
     }
     catch (error: unknown) {
@@ -19,16 +15,19 @@ export const signupApiCall = async (formData: SignupModel) => {
             return {
                 success: false,
                 message: "Something went wrong."
-            };
+            }
         }
     }
+
 }
 
-export const signinApicall = async (formData: SigninModel) => {
+export const getAllUserDetails = async () => {
+
     try {
-        const response = await axiosConfig.post('/api/auth/signin', formData);
+        const response = await axiosConfig.get("/api/user/all-user-details");
         return response.data;
     }
+
     catch (error: unknown) {
         if (isAxiosError(error)) {
             return error.response?.data;
@@ -37,8 +36,7 @@ export const signinApicall = async (formData: SigninModel) => {
             return {
                 success: false,
                 message: "Something went wrong."
-            };
+            }
         }
     }
 }
-
