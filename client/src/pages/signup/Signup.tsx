@@ -5,6 +5,8 @@ import SignupModel from "../../models/signup.model";
 import { signupApiCall } from "../../apiCalls/auth.api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { showLoader } from "../../redux/loadingSlice";
 
 
 function Signup() {
@@ -12,7 +14,7 @@ function Signup() {
   const buttonRef: RefObject<HTMLButtonElement | null> = useRef(null);
   const [isMouseEnter, setIsMouseEnter] = useState<boolean>(false);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const { register, handleSubmit, formState, watch } = useForm();
 
   function onMouseEnterButton() {
@@ -24,8 +26,9 @@ function Signup() {
     delete formData['confirm_password'];
 
     try {
+      dispatch(showLoader());
       const response = await signupApiCall(formData);
-
+      dispatch(hideLoader());
       if (response.success == true) {
         toast.success("Account created Successfully.");
         navigate("/signin");
@@ -34,7 +37,7 @@ function Signup() {
         toast.error(response.message);
       }
     }
-    catch (err) {
+    catch (err: unknown) {
       toast.error("Something went wrong.");
     }
 
@@ -149,3 +152,7 @@ function Signup() {
 }
 
 export default Signup;
+function hideLoader(): any {
+  throw new Error("Function not implemented.");
+}
+

@@ -5,6 +5,8 @@ import SigninModel from "../../models/signin.model";
 import { signinApicall } from "../../apiCalls/auth.api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { hideLoader, showLoader } from "../../redux/loadingSlice";
 
 
 
@@ -13,6 +15,7 @@ function Signin() {
     const buttonRef: RefObject<HTMLButtonElement | null> = useRef(null);
     const [isMouseEnter, setIsMouseEnter] = useState<boolean>(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const { register, handleSubmit, formState } = useForm();
 
@@ -23,15 +26,16 @@ function Signin() {
 
     async function onFormSubmit(formData: SigninModel) {
         try {
+            dispatch(showLoader());
             const response = await signinApicall(formData);
-
+            dispatch(hideLoader());
             if (response.success === true) {
                 toast.success("User logged in successfully");
                 localStorage.setItem("user", response.token);
                 navigate("/");
             }
             else {
-                toast.error(response.response.data.message);
+                toast.error(response.message);
             }
         }
         catch (err: unknown) {
