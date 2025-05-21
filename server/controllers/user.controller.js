@@ -12,7 +12,7 @@ async function getUserDetails(req, res) {
 async function getAllUserDetails(req, res) {
   const allUsers = await userCollection.find({ _id: { $ne: req.body.userId } });
   return res.status(200).json({
-    success: false,
+    success: true,
     message: "All user details fetched successfully.",
     data: allUsers,
   });

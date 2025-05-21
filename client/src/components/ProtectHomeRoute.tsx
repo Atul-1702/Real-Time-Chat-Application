@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { getUserDetails } from "../apiCalls/user.api";
 import { hideLoader, showLoader } from "../redux/loadingSlice";
 import { useDispatch } from "react-redux";
+import { setUser } from "../redux/userSlice";
 
 
 
@@ -25,6 +26,7 @@ function ProtectHomeRoute({ children }) {
                     localStorage.removeItem('user');
                 }
                 else {
+                    dispatch(setUser(response.data[0]));
                     timeOutId = setTimeout(() => {
                         setCanRender(true);
                     })

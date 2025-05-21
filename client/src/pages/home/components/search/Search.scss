@@ -1,0 +1,21 @@
+.search-bar {
+  position: relative;
+  width: 316px;
+  .search-bar-input-field {
+    height: 36px;
+    width: 284px;
+    border-radius: 20px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border: none;
+  }
+  .fa-magnifying-glass {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgb(186, 94, 82);
+  }
+}
