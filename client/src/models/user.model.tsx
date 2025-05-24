@@ -6,4 +6,5 @@ export default interface User {
     email: string,
     createdAt?: string,
     updatedAt?: string;
+    profilepic?: string;
 }
