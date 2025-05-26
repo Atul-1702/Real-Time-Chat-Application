@@ -10,7 +10,6 @@ function AuthMiddleware(req, res, next) {
   if (!user) {
     return next(new CustomError("Invalid or expired token.", 401));
   }
-  console.log(user);
   req.body = { ...req.body, userId: user.userId };
   return next();
 }

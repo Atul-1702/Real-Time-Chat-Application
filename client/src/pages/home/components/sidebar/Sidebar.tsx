@@ -8,7 +8,7 @@ function SideBar() {
     const [searchedUser, setSearchedUser] = useState('');
     return (<aside className='sidebar-container'>
         <SearchUser setSearchedUser={setSearchedUser}></SearchUser>
-        <UserList searchedUser={searchedUser}></UserList>
+        <UserList searchedUser={searchedUser} setSearchedUser={setSearchedUser}></UserList>
     </aside>)
 }
 
