@@ -1,0 +1,17 @@
+.chat-header-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 5px;
+  h3 {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    justify-self: flex-end;
+    font-weight: bold;
+    font-size: 22px;
+    color: rgb(179, 86, 106);
+    margin-right: 4px;
+  }
+  hr {
+    width: 100%;
+  }
+}

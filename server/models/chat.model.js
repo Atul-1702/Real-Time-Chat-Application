@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const chatSchema = new mongoose.Schema(
   {
     members: [
-      { type: mongoose.SchemaTypes.ObjectId, ref: "Users", required: true },
+      { type: mongoose.SchemaTypes.ObjectId, ref: "User", required: true },
     ],
     lastMessage: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: "Messages",
+      ref: "Message",
     },
     unreadMessageCount: {
       type: Number,

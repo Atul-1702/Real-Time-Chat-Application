@@ -19,6 +19,7 @@
     padding-bottom: 12px;
     place-items: center;
     column-gap: 4px;
+    cursor: pointer;
     .name-intials {
       font-weight: 900;
       display: inline-block;
@@ -49,6 +50,64 @@
       }
       span:last-child {
         color: rgb(159, 159, 162);
+        word-break: break-all;
+      }
+    }
+    button {
+      background-color: rgb(237, 73, 50);
+      color: white;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+
+  .selected-item {
+    background-color: rgb(230, 77, 60);
+    opacity: 0.9;
+    border: 1px solid rgb(249, 245, 241);
+    width: 100%;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: auto 151px auto;
+    grid-template-rows: auto;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    place-items: center;
+    column-gap: 4px;
+    cursor: pointer;
+    .name-intials {
+      font-weight: 900;
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      color: coral;
+      background-color: white;
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+
+      @media (max-width: 616px) {
+        width: 32px;
+        height: 32px;
+        font-size: 17px;
+      }
+    }
+    .user-name-and-email {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      justify-self: flex-start;
+      span:first-child {
+        color: white;
+        font-weight: bolder;
+        font-size: 20px;
+      }
+      span:last-child {
+        color: white;
         word-break: break-all;
       }
     }
