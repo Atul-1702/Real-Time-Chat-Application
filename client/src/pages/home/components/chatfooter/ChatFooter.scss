@@ -1,0 +1,28 @@
+.chat-footer-component-wrapper {
+  width: 100%;
+  position: relative;
+  margin-top: 20px;
+  input {
+    width: calc(100% - 36px);
+    padding: 12px 18px;
+    border-radius: 6px;
+    border: 3px solid rgb(242, 242, 240);
+    outline-color: bisque;
+    outline-width: 3px;
+    outline-style: solid;
+  }
+  button {
+    border: none;
+    background-color: unset;
+    padding: 0;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    .fa-paper-plane {
+      font-size: 18px;
+      color: rgb(229, 75, 64);
+    }
+  }
+}

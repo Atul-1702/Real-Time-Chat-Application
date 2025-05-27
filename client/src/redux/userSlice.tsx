@@ -13,7 +13,8 @@ const userSlice = createSlice({
         },
         setUserAllChats: (state, action) => {
             state.userAllChats = action.payload;
-        }
+        },
+
     }
 });
 
