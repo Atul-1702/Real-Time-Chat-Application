@@ -34,7 +34,23 @@ const getUserAllMessages = async (chatId) => {
     }
 }
 
+const readAllUnreadMessage = async (chatId) => {
+    try {
+        const response = await axiosConfig.post('/api/message/read-all-messages/', { chatId });
+        return response.data;
+    }
+    catch (error: unknown) {
+        if (isAxiosError(error)) {
+            return error.response?.data;
+        }
+        return {
+            success: false,
+            message: "Something went wrong!"
+        };
+    }
+}
 export {
     sendNewMessage,
-    getUserAllMessages
+    getUserAllMessages,
+    readAllUnreadMessage
 }

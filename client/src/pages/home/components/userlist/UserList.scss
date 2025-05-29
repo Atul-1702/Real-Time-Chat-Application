@@ -51,6 +51,11 @@
       span:last-child {
         color: rgb(159, 159, 162);
         word-break: break-all;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        display: inline-block;
+        width: 151px;
       }
     }
     button {
@@ -65,8 +70,8 @@
   }
 
   .selected-item {
-    background-color: rgb(230, 77, 60);
-    opacity: 0.9;
+    background-color: coral;
+
     border: 1px solid rgb(249, 245, 241);
     width: 100%;
     border-radius: 4px;
@@ -109,6 +114,12 @@
       span:last-child {
         color: white;
         word-break: break-all;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        display: inline-block;
+        width: 200px;
+        width: 151px;
       }
     }
     button {
@@ -119,6 +130,31 @@
       border: none;
       font-weight: bold;
       cursor: pointer;
+    }
+    .last-message-time-and-unread-message {
+      time {
+        color: white;
+      }
+    }
+  }
+  .last-message-time-and-unread-message {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    span {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background-color: orangered;
+      border-radius: 50%;
+      font-weight: bold;
+      color: white;
+      display: grid;
+      place-items: center;
+    }
+    time {
+      color: rgb(159, 159, 162);
+      font-size: 14px;
     }
   }
 }

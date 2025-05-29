@@ -16,6 +16,7 @@ async function getAllChats(request, response) {
       members: { $in: request.body.userId },
     })
     .populate("members")
+    .populate("lastMessage")
     .sort({ updatedAt: -1 });
 
   return response.status(200).json({
