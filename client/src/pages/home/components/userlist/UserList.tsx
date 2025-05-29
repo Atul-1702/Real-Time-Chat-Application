@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './UserList.scss';
 import { getAllUserDetails } from '../../../../apiCalls/user.api';
 import toast from 'react-hot-toast';
@@ -6,6 +6,8 @@ import User from './../../../../models/user.model';
 import { createNewChat, getUserAllChats } from '../../../../apiCalls/chats.api';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedUser, setUserAllChats } from '../../../../redux/userSlice';
+import { readAllUnreadMessage } from '../../../../apiCalls/message.api';
+import moment from 'moment';
 
 interface Props {
     searchedUser: string;
@@ -49,7 +51,6 @@ function UserList({ searchedUser, setSearchedUser }: Props) {
 
         if (response.success === true) {
             setSearchedUser('');
-            console.log(response);
             toast.success("Chat started successfully");
         }
         else {
@@ -57,8 +58,48 @@ function UserList({ searchedUser, setSearchedUser }: Props) {
         }
     }
 
-    function onToggleChatArea(userId: string) {
+    async function onToggleChatArea(userId: string) {
         dispatch(setSelectedUser(userId));
+
+        for (const item of userAllChats) {
+            if (item?.lastMessage.sender != user._id && (item.members[0]._id == userId || item.members[1]._id === userId)) {
+                const response = await readAllUnreadMessage(item._id);
+                if (response.success == true) {
+                    toast.success("Message read successfully.")
+                }
+                else {
+                    toast.error("Something went wrong.");
+                }
+            }
+        }
+
+    }
+
+    function getLastMessage(userId) {
+
+        for (let item of userAllChats) {
+
+            if (item.members[0]._id === userId || item.members[1]._id === userId) {
+                return item?.lastMessage?.text;
+            }
+        }
+        return '';
+    }
+    function unReadMeaageCount(userId) {
+        for (let item of userAllChats) {
+            if (item?.lastMessage.sender != user._id && item?.unreadMessageCount > 0 && (item.members[0]._id === userId || item.members[1]._id === userId)) {
+                return <span>{item?.unreadMessageCount}</span>
+            }
+        }
+        return '';
+    }
+    function getTimeDate(userId) {
+        for (const item of userAllChats) {
+            if ((item.members[0]._id === userId || item.members[1]._id === userId)) {
+
+                return moment(item.lastMessage.updatedAt).format('hh:mm A');
+            }
+        }
     }
 
     return (
@@ -67,14 +108,19 @@ function UserList({ searchedUser, setSearchedUser }: Props) {
             {
                 allSearchedUser.map((user: User) => (
                     <li key={user._id} className={selectedUser === user._id ? 'selected-item' : 'user-list-item'} onClick={() => onToggleChatArea(user._id)}>
-                        {!user.profilepic ? <span className='name-intials'>{user.firstname.charAt(0).toUpperCase() + user.lastname?.charAt(0).toUpperCase()}</span> : null}
+                        {!user.profilepic ? <span className='name-intials'>{user.firstname.charAt(0).toUpperCase() + user?.lastname?.charAt(0).toUpperCase()}</span> : null}
                         <div className='user-name-and-email'>
                             <span>{user.firstname + " " + user.lastname}</span>
-                            <span>{user.email}</span>
+                            <span>{getLastMessage(user._id)}</span>
                         </div>
                         {
                             userAllChats.some((item) => item?.members.map((m) => m._id).includes(user._id)) ?
-                                null : <button onClick={() => onStartChatButtonClicked(user._id)}>Start Chat</button>
+                                <div className='last-message-time-and-unread-message'>
+                                    {unReadMeaageCount(user._id)}
+                                    <time dateTime="">{getTimeDate(user._id)}</time>
+                                </div>
+
+                                : <button onClick={() => onStartChatButtonClicked(user._id)}>Start Chat</button>
                         }
 
                     </li>

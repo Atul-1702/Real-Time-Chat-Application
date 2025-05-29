@@ -17,7 +17,7 @@ async function sendNewMessage(req, res) {
   return res.status(200).json({
     success: true,
     message: "Message send successfully.",
-    data: message,
+    data: currentChat,
   });
 }
 
@@ -31,7 +31,27 @@ async function getAllMessages(request, response) {
   });
 }
 
+async function readAllMessages(req, res) {
+  const updatedChat = await chatCollection.findByIdAndUpdate(req.body.chatId, {
+    unreadMessageCount: 0,
+  });
+
+  const messageRead = await messageCollection.findOneAndUpdate(
+    {
+      chatId: req.body.chatId,
+    },
+    { read: true }
+  );
+
+  return res.status(200).json({
+    success: true,
+    message: "Message read successfully.",
+    data: messageRead,
+  });
+}
+
 module.exports = {
   sendNewMessage,
   getAllMessages,
+  readAllMessages,
 };
