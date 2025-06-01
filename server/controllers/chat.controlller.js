@@ -12,13 +12,17 @@ async function createNewChat(request, response) {
 
 async function getAllChats(request, response) {
   const allUserChats = await chatCollection
-    .find({
-      members: { $in: request.body.userId },
-    })
+    .find(
+      {
+        members: { $in: [request.body.userId] },
+      },
+      { new: true }
+    )
+    .select("unreadMessageCount")
     .populate("members")
     .populate("lastMessage")
     .sort({ updatedAt: -1 });
-
+  console.log(allUserChats);
   return response.status(200).json({
     success: true,
     message: "All chats fetched successfully.",

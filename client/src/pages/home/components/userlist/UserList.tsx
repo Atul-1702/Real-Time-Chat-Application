@@ -25,17 +25,29 @@ function UserList({ searchedUser, setSearchedUser }: Props) {
                 const responseChats = await getUserAllChats();
                 setUserAllChatsComp(responseChats.data);
                 dispatch(setUserAllChats(responseChats.data));
-                setAllSearchedUser((response.data as User[]).filter((user: User) => {
-                    if (searchedUser && ((user.firstname.toLowerCase().includes(searchedUser.toLowerCase())) === true || user.lastname?.toLowerCase().includes(searchedUser.toLowerCase()))) {
-                        return true;
+
+
+                if (searchedUser) {
+
+                    setAllSearchedUser((response.data as User[]).filter((user: User) => {
+                        if (((user.firstname.toLowerCase().includes(searchedUser.toLowerCase())) === true || user.lastname?.toLowerCase().includes(searchedUser.toLowerCase()))) {
+                            return true;
+                        }
+                        return false;
+                    }))
+                }
+                else {
+                    const temp = [];
+                    for (const mem of responseChats.data) {
+                        if (mem.members[0]._id !== user._id) {
+                            temp.push(mem.members[0]);
+                        }
+                        else {
+                            temp.push(mem.members[1]);
+                        }
                     }
-                    if (!searchedUser) {
-                        return responseChats?.data.some((item) => {
-                            return item?.members?.map((m) => m._id).includes(user._id);
-                        })
-                    }
-                    return false;
-                }))
+                    setAllSearchedUser([...temp]);
+                }
             }
             else {
                 toast.error("We are facing some issue.\nTry after some time.");
@@ -61,9 +73,13 @@ function UserList({ searchedUser, setSearchedUser }: Props) {
     async function onToggleChatArea(userId: string) {
         dispatch(setSelectedUser(userId));
 
+
         for (const item of userAllChats) {
-            if (item?.lastMessage.sender != user._id && (item.members[0]._id == userId || item.members[1]._id === userId)) {
+
+            if (item?.lastMessage?.sender != user._id && (item?.members[0]?._id == userId || item?.members[1]?._id == userId)) {
+
                 const response = await readAllUnreadMessage(item._id);
+
                 if (response.success == true) {
                     toast.success("Message read successfully.")
                 }
@@ -85,9 +101,11 @@ function UserList({ searchedUser, setSearchedUser }: Props) {
         }
         return '';
     }
-    function unReadMeaageCount(userId) {
+    function UnReadMessageCount({ userId }) {
+
         for (let item of userAllChats) {
-            if (item?.lastMessage.sender != user._id && item?.unreadMessageCount > 0 && (item.members[0]._id === userId || item.members[1]._id === userId)) {
+            if (item?.lastMessage?.sender != user._id && item?.unreadMessageCount > 0 && (item.members[0]._id === userId || item.members[1]._id === userId)) {
+                console.log("UnreadMessage");
                 return <span>{item?.unreadMessageCount}</span>
             }
         }
@@ -97,7 +115,7 @@ function UserList({ searchedUser, setSearchedUser }: Props) {
         for (const item of userAllChats) {
             if ((item.members[0]._id === userId || item.members[1]._id === userId)) {
 
-                return moment(item.lastMessage.updatedAt).format('hh:mm A');
+                return moment(item?.lastMessage?.updatedAt).format('hh:mm A');
             }
         }
     }
@@ -116,7 +134,7 @@ function UserList({ searchedUser, setSearchedUser }: Props) {
                         {
                             userAllChats.some((item) => item?.members.map((m) => m._id).includes(user._id)) ?
                                 <div className='last-message-time-and-unread-message'>
-                                    {unReadMeaageCount(user._id)}
+                                    <UnReadMessageCount userId={user._id}></UnReadMessageCount>
                                     <time dateTime="">{getTimeDate(user._id)}</time>
                                 </div>
 

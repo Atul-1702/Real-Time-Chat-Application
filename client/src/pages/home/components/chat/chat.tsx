@@ -6,11 +6,12 @@ import toast from "react-hot-toast";
 import { getUserAllMessages } from "../../../../apiCalls/message.api";
 import { useState } from "react";
 import moment from 'moment';
-import { diff } from './../../../../../../node_modules/moment/src/lib/moment/diff';
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 function Chat() {
     const [messages, setMessages] = useState([]);
-    const { selectedUser, userAllChats } = useSelector((state) => state.userReducer);
+    const { selectedUser, userAllChats, user } = useSelector((state) => state.userReducer);
     let selectedUserDetails = userAllChats.map((memb) => memb.members).filter((memb) => {
         if (selectedUser === memb[0]._id || selectedUser === memb[1]._id) {
             return true;
@@ -61,7 +62,8 @@ function Chat() {
                 messages.map((message) => (
                     <React.Fragment key={message._id}>
                         <p className={selectedUser !== message.sender ? "send-message" : "received-message"}>{message.text}</p>
-                        <time className={selectedUser !== message.sender ? "send-message-time" : "received-message-time"} dateTime={message.createdAt}>{getMessageTimeAndDate(message.createdAt)}</time>
+                        <time className={selectedUser !== message.sender ? "send-message-time" : "received-message-time"} dateTime={message.createdAt}>{getMessageTimeAndDate(message.createdAt)}{user._id === message.sender && message.read === true && <FontAwesomeIcon icon={faCircleCheck}></FontAwesomeIcon>}</time>
+
                     </React.Fragment>
                 ))
             }

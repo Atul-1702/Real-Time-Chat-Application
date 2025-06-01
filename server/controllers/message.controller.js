@@ -36,7 +36,7 @@ async function readAllMessages(req, res) {
     unreadMessageCount: 0,
   });
 
-  const messageRead = await messageCollection.findOneAndUpdate(
+  const messageRead = await messageCollection.updateMany(
     {
       chatId: req.body.chatId,
     },
