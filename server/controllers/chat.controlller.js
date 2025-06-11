@@ -22,7 +22,7 @@ async function getAllChats(request, response) {
     .populate("members")
     .populate("lastMessage")
     .sort({ updatedAt: -1 });
-  console.log(allUserChats);
+
   return response.status(200).json({
     success: true,
     message: "All chats fetched successfully.",
